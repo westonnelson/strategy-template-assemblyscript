@@ -1370,10 +1370,10 @@
     conventional-changelog-conventionalcommits "^4.6.0"
     typescript "^4.3.5"
 
-"@steerprotocol/concentrated-liquidity-strategy@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@steerprotocol/concentrated-liquidity-strategy/-/concentrated-liquidity-strategy-0.0.9.tgz#b625a9d6121f1de3ea7ec7b93472849204d65f51"
-  integrity sha512-1g/e2dLgYAyuyFTl3k86Vqih/bc8DhRCuknJqF8TmnOfUXR/ZPoVyCHlhPb45TkZbOHuPNjD/Dk9VmKpFgBcXA==
+"@steerprotocol/concentrated-liquidity-strategy@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@steerprotocol/concentrated-liquidity-strategy/-/concentrated-liquidity-strategy-0.0.10.tgz#c6a1efe27f052ee53738cbee96f1c6857553c2ea"
+  integrity sha512-77G5SqfdfB3nf5RaXghRLNhvrWtVE7z9XwdFYVCwU3pvXHY/YlOZxvvhoBkqHV3SmbMKHMC6gu1wJOQYQwpkzQ==
   dependencies:
     "@assemblyscript/loader" "0.19.9"
     "@babel/preset-typescript" "^7.14.5"
@@ -1404,10 +1404,10 @@
     conventional-changelog-conventionalcommits "^4.6.0"
     typescript "^4.3.5"
 
-"@steerprotocol/strategy-utils@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@steerprotocol/strategy-utils/-/strategy-utils-0.0.3.tgz#dee760b2c2e4f1bf0265e3010092b8715d73b35e"
-  integrity sha512-auCzMJDvwDEf7j3/uX7AHkZcW8JXeRyE282+6whXTkfllesvxevya90iou+O6HRHVHAygMuolskTe13oyrdD5g==
+"@steerprotocol/strategy-utils@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@steerprotocol/strategy-utils/-/strategy-utils-0.0.6.tgz#a2cfa060df1c031ed8967de20a64808c2f73d7d8"
+  integrity sha512-nkUK5mW9A/oCLYtAxgwDMP9RW/xyujy4wTvaPfLEaF1pM/zhMmko/oZGc91LQk4YetKzimMW7y/jqrxUl7YXrg==
   dependencies:
     "@assemblyscript/loader" "0.19.9"
     "@babel/preset-typescript" "^7.14.5"

@@ -1,58 +1,61 @@
+import { parsePrices, console } from "@steerprotocol/strategy-utils";
 import { JSON } from "assemblyscript-json";
-import { UniswapV3LiquidityStrategy } from "@steerprotocol/concentrated-liquidity-strategy";
-import { parsePrices } from "@steerprotocol/strategy-utils";
 import { CustomStrategy } from "./CustomStrategy";
 
-export const Float32Array_ID = idof<Float32Array>();
-
-export type StrategyResult = Array<f32>;
-
 // This is the main entry point for the bundle. It is called when the bundle is loaded by the worker.
-export class Strategy extends UniswapV3LiquidityStrategy {
-  
+// Strategy is always exported verbatim so that the worker can find the proper reference.
+export class Strategy {
   // Local instance of the strategy
   customStrategy: CustomStrategy;
 
-  // Parse the input strings into proper types and intitalize the strategy.
-  constructor(config: string) {    
-    
+  // Parse the input strings into proper types and initialize the strategy.
+  constructor(config: string) {
     // Parse config object JSON string
     const parsedConfig = <JSON.Obj>JSON.parse(config.toString());
 
     // Parse input config object
-    let periodRaw = parsedConfig.getInteger("period");
-    let standardDeviationRaw = parsedConfig.getInteger("standardDeviation");
-    let binWidthRaw = parsedConfig.getInteger("binWidth");
+    let percentJSON = parsedConfig.getInteger("percent");
+    let binWidthJSON = parsedConfig.getInteger("binWidth");
 
     // Validate the config object
-    if (!binWidthRaw) {
-      throw new Error("binWidth must be a number");
+    if (percentJSON == null) {
+      throw new Error("Percent must be a provided");
     }
-
-    if(!(periodRaw && standardDeviationRaw)) {
-      throw new Error("Invalid config");  
-    }
-
-    // Parse config values
-    const period = i32(periodRaw.valueOf())
-    const standardDeviation = i32(standardDeviationRaw.valueOf())
-    const binWidth = f32(binWidthRaw.valueOf())
     
-    // Because we exent the UniswapV3LiquidityStrategy class, we need to call the super constructor
-    // it requires the binWidth parameter
-    super(binWidth);    
+    if (!binWidthJSON) {
+      throw new Error("Bin Width must be a provided");
+    }
+
+    // Parse config values from the JSON class
+    const percent = f32(percentJSON.valueOf());
+    const binWidth = f32(binWidthJSON.valueOf());
     
     // Set the strategy
-    this.customStrategy = new CustomStrategy(period, standardDeviation, f32(binWidth));
+    this.customStrategy = new CustomStrategy(
+      binWidth,
+      percent
+    );
   }
 
   // After instantiation, this is called once per epoch.
-  execute(_prices: string): string {
+  public execute(_prices: string): string {
+    // Parse the input string into an array of Price objects
     const prices = parsePrices(_prices);
 
-    return this.renderResult(
-      []
-    );
+    // First let's get the trailing stop price from the customer strategy class we built
+    const trailingLimit = this.customStrategy.trailingStop(prices)
+
+    // Next we'll create the smallest possible position by providing the trailing stop price
+    // ass the upper and lower price for the liquidity position
+    const positions = this.customStrategy.getPositions(trailingLimit, trailingLimit);
+
+    // Once we have our positions we will use a helper function from the UniswapV3LiquidityStrategy
+    // to render the result which is needed for on-chain execution.
+    const result = this.customStrategy.renderResult(positions)
+
+    console.log(result);
+
+    return result;
   }
 
   // Renders the config object in JSON Schema format, which is used
@@ -63,20 +66,16 @@ export class Strategy extends UniswapV3LiquidityStrategy {
       "title": "Strategy Config",
       "type": "object",
       "properties": {
-        "period": {
-          "type": "number",
-          "description": "Number of candles per period"
-        },
-        "standardDeviation": {
-          "type": "number",
-          "description": "Width multiplier for the channel"
+        "percent": {
+            "type": "number",
+            "description": "Percent for trailing stop order"
         },
         "binWidth": {
-          "type": "number",
-          "description": "Width of the bin in ticks, should be a multiple of pool size, i.e. 10, 60, 200"
+            "type": "number",
+            "description": "Width for liquidity buckets"
         }
       },
-      "required": ["period", "standardDeviation", "binWidth"]
+      "required": ["percent", "binWidth"]
     }`;
   }
 }
