@@ -1,5 +1,47 @@
+export const config_payload = 
+`{"percent":5.0,"binWidth":120,"poolFee":3000}`
+
+export const config = `{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Strategy Config",
+  "type": "object",
+  "properties": {
+    "percent": {
+        "type": "number",
+        "description": "Percent for trailing stop order"
+    },
+    "slippage": {
+      "type": "number",
+      "description": "acceptable slippage % when swapping for rebalancing, accurate up to 2 decimals"
+    },
+    "isUniLiquidityManager": {
+      "type": "boolean",
+      "description": "if UniLiquidityManager balancing code should be run"
+    },
+    "poolAddress": {
+      "type": "string",
+      "description": "the Uniswapv3 pool this manager will interact with"
+    },
+    "poolFee": {
+      "type": "number",
+      "description": "expanded pool fee percent for Uniswapv3 pool"
+    },
+    "RatioErrorTolerance": {
+      "type": "number",
+      "description": "how close we will accept a rebalance amount into our desired ratio (use 20 as a default)"
+    },
+    "binWidth": {
+        "type": "number",
+        "description": "Width for liquidity position, must be a multiple of pool tick spacing"
+    }
+  },
+  "required": ["percent", "binWidth", "slippage", "isUniLiquidityManager", "poolAddress", "poolFee", "RatioErrorTolerance"]
+}`;
+
+export const empty = '{"data":[]}'
+
 export const prices = {
-    data: [
+    data: [[
       {
         timestamp: 1625512200000,
         high: 34051.1295539537,
@@ -4598,6 +4640,8 @@ export const prices = {
         low: 33128.1608036485,
         close: 33183.3132889472,
         open: 33128.1608036485,
-      },
-    ],
+      }
+    ]]
   };
+
+  

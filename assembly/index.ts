@@ -1,81 +1,99 @@
-import { parsePrices, console } from "@steerprotocol/strategy-utils";
 import { JSON } from "assemblyscript-json";
-import { CustomStrategy } from "./CustomStrategy";
+import {Position, parsePrices, getTickFromPrice, trailingStop, renderULMResult, getTickSpacing} from "@steerprotocol/strategy-utils";
 
-// This is the main entry point for the bundle. It is called when the bundle is loaded by the worker.
-// Strategy is always exported verbatim so that the worker can find the proper reference.
-export class Strategy {
-  // Local instance of the strategy
-  customStrategy: CustomStrategy;
 
-  // Parse the input strings into proper types and initialize the strategy.
-  constructor(config: string) {
-    // Parse config object JSON string
-    const parsedConfig = <JSON.Obj>JSON.parse(config.toString());
+let width: i32 = 600;
+let percent: f32 = 0;
+let poolFee: i32 = 0;
 
-    // Parse input config object
-    let percentJSON = parsedConfig.getInteger("percent");
-    let binWidthJSON = parsedConfig.getInteger("binWidth");
-
-    // Validate the config object
-    if (percentJSON == null) {
-      throw new Error("Percent must be a provided");
-    }
-    
-    if (!binWidthJSON) {
-      throw new Error("Bin Width must be a provided");
-    }
-
-    // Parse config values from the JSON class
-    const percent = f32(percentJSON.valueOf());
-    const binWidth = f32(binWidthJSON.valueOf());
-    
-    // Set the strategy
-    this.customStrategy = new CustomStrategy(
-      binWidth,
-      percent
-    );
+export function initialize(config: string): void {
+  // Parse the config object
+  const configJson = <JSON.Obj>JSON.parse(config);
+  // Get our config variables
+  const _width = configJson.getInteger("binWidth");
+  const _poolFee = configJson.getInteger("poolFee");
+  const _percent = configJson.getNum("percent");
+  // Handle null case
+  if (_width == null || _percent == null || _poolFee == null) {
+    throw new Error("Invalid config");
   }
-
-  // After instantiation, this is called once per epoch.
-  public execute(_prices: string): string {
-    // Parse the input string into an array of Price objects
-    const prices = parsePrices(_prices);
-
-    // First let's get the trailing stop price from the customer strategy class we built
-    const trailingLimit = this.customStrategy.trailingStop(prices)
-
-    // Next we'll create the smallest possible position by providing the trailing stop price
-    // ass the upper and lower price for the liquidity position
-    const positions = this.customStrategy.getPositions(trailingLimit, trailingLimit);
-
-    // Once we have our positions we will use a helper function from the UniswapV3LiquidityStrategy
-    // to render the result which is needed for on-chain execution.
-    const result = this.customStrategy.renderResult(positions)
-
-    console.log(result);
-
-    return result;
-  }
-
-  // Renders the config object in JSON Schema format, which is used
-  // by the frontend to display input value options and validate user input.
-  static config(): string {
-    return `{
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Strategy Config",
-      "type": "object",
-      "properties": {
-        "percent": {
-            "type": "number",
-            "description": "Percent for trailing stop order"
-        },
-        "binWidth": {
-            "type": "number",
-            "description": "Width for liquidity buckets"
-        }
-      },
-      "required": ["percent", "binWidth"]
-    }`;
-  }
+  // Assign values to memory
+  width = i32(_width._num);
+  percent = f32(_percent._num);
+  poolFee = i32(_poolFee._num);
 }
+
+export function execute(_prices: string): string {
+  // _prices will be a nested array with the OHLC data in the deeper array,
+  const prices = parsePrices(_prices);
+  // If we have no candles 
+  if (prices.length == 0) {return `skip tend, no candles`}
+  // Get Trailing stop price
+  const trailingLimit = trailingStop(percent, prices)
+  // Calculate position
+  const positions = calculateBin(trailingLimit);
+  // Format and return result
+  return renderULMResult(positions);
+}
+
+
+function calculateBin(upper: f32): Position[] {
+
+  // Calculate the upper tick based on the start of the stop
+  const upperTick: i32 = i32(Math.round(getTickFromPrice(upper)));
+
+  // Get the spacing
+  const tickSpacing = getTickSpacing(poolFee);
+
+  // Step down ticks until we reach an initializable tick
+  let _startTick: i32 = upperTick;
+  while (_startTick % tickSpacing !== 0) {
+    _startTick--;
+  }
+
+  const positions: Array<Position> = [];
+  const position = new Position(_startTick - width, _startTick, 1);
+  positions.push(position);
+
+  return positions
+}
+
+export function config(): string{
+  return `{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Strategy Config",
+    "type": "object",
+    "properties": {
+      "percent": {
+          "type": "number",
+          "description": "Percent for trailing stop order"
+      },
+      "slippage": {
+        "type": "number",
+        "description": "acceptable slippage % when swapping for rebalancing, accurate up to 2 decimals"
+      },
+      "isUniLiquidityManager": {
+        "type": "boolean",
+        "description": "if UniLiquidityManager balancing code should be run"
+      },
+      "poolAddress": {
+        "type": "string",
+        "description": "the Uniswapv3 pool this manager will interact with"
+      },
+      "poolFee": {
+        "type": "number",
+        "description": "expanded pool fee percent for Uniswapv3 pool"
+      },
+      "RatioErrorTolerance": {
+        "type": "number",
+        "description": "how close we will accept a rebalance amount into our desired ratio (use 20 as a default)"
+      },
+      "binWidth": {
+          "type": "number",
+          "description": "Width for liquidity position, must be a multiple of pool tick spacing"
+      }
+    },
+    "required": ["percent", "binWidth", "slippage", "isUniLiquidityManager", "poolAddress", "poolFee", "RatioErrorTolerance"]
+  }`;
+}
+
