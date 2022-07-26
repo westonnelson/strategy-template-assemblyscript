@@ -43,7 +43,7 @@ describe("WASM Module", () => {
 
       // The result should match the given config
       expect(JSON.stringify(parsedResult)).toStrictEqual(
-        (`{"functionName":"tend(uint256,(int24[],int24[],uint16[]),bytes)","typesArray":["uint256","tuple(int24[],int24[],uint16[])","bytes"],"valuesArray":[1000,[[103680],[103800],[1]],"0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000ffffffffffffffffffffffffffffffffffffffff"]}`)
+        (`{"functionName":"tend(uint256,(int24[],int24[],uint16[]),bytes)","typesArray":["uint256","tuple(int24[],int24[],uint16[])","bytes"],"valuesArray":[10000,[[103680],[103800],[1]],"0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000ffffffffffffffffffffffffffffffffffffffff"]}`)
       );
     });
   });
