@@ -1,5 +1,31 @@
+export const config_payload = `{"percent":5.0,"binWidth":120,"poolFee":3000}`;
+
+export const config = `{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Strategy Config",
+  "type": "object",
+  "properties": {
+    "percent": {
+        "type": "number",
+        "description": "Percent for trailing stop order"
+    },
+    "poolFee": {
+      "type": "number",
+      "description": "expanded pool fee percent for Uniswapv3 pool"
+    },
+    "binWidth": {
+        "type": "number",
+        "description": "Width for liquidity position, must be a multiple of pool tick spacing"
+    }
+  },
+  "required": ["percent", "binWidth", "poolFee"]
+}`;
+
+export const empty = '{"data":[]}';
+
 export const prices = {
-    data: [
+  data: [
+    [
       {
         timestamp: 1625512200000,
         high: 34051.1295539537,
@@ -4600,4 +4626,5 @@ export const prices = {
         open: 33128.1608036485,
       },
     ],
-  };
+  ],
+};
