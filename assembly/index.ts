@@ -12,14 +12,23 @@ export function initialize(config: string): void {
   // Get our config variables
   const _width = configJson.getInteger("binWidth");
   const _poolFee = configJson.getInteger("poolFee");
-  const _percent = configJson.getNum("percent");
+  const _percent = configJson.getValue("percent");
   // Handle null case
   if (_width == null || _percent == null || _poolFee == null) {
-    throw new Error("Invalid config");
+    throw new Error("Invalid configuration");
+  }
+
+  // Handle int percents
+  if (_percent.isFloat) {
+    const f_percent = <JSON.Num>_percent
+    percent = f32(f_percent._num);
+  }
+  if (_percent.isInteger) {
+    const i_percent = <JSON.Integer>_percent
+    percent = f32(i_percent._num);
   }
   // Assign values to memory
   width = i32(_width._num);
-  percent = f32(_percent._num);
   poolFee = i32(_poolFee._num);
 }
 
@@ -68,32 +77,16 @@ export function config(): string{
           "type": "number",
           "description": "Percent for trailing stop order"
       },
-      "slippage": {
-        "type": "number",
-        "description": "acceptable slippage % when swapping for rebalancing, accurate up to 2 decimals"
-      },
-      "isUniLiquidityManager": {
-        "type": "boolean",
-        "description": "if UniLiquidityManager balancing code should be run"
-      },
-      "poolAddress": {
-        "type": "string",
-        "description": "the Uniswapv3 pool this manager will interact with"
-      },
       "poolFee": {
         "type": "number",
         "description": "expanded pool fee percent for Uniswapv3 pool"
-      },
-      "RatioErrorTolerance": {
-        "type": "number",
-        "description": "how close we will accept a rebalance amount into our desired ratio (use 20 as a default)"
       },
       "binWidth": {
           "type": "number",
           "description": "Width for liquidity position, must be a multiple of pool tick spacing"
       }
     },
-    "required": ["percent", "binWidth", "slippage", "isUniLiquidityManager", "poolAddress", "poolFee", "RatioErrorTolerance"]
+    "required": ["percent", "binWidth", "poolFee"]
   }`;
 }
 
