@@ -1404,10 +1404,10 @@
     conventional-changelog-conventionalcommits "^4.6.0"
     typescript "^4.3.5"
 
-"@steerprotocol/strategy-utils@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@steerprotocol/strategy-utils/-/strategy-utils-0.0.6.tgz#a2cfa060df1c031ed8967de20a64808c2f73d7d8"
-  integrity sha512-nkUK5mW9A/oCLYtAxgwDMP9RW/xyujy4wTvaPfLEaF1pM/zhMmko/oZGc91LQk4YetKzimMW7y/jqrxUl7YXrg==
+"@steerprotocol/strategy-utils@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@steerprotocol/strategy-utils/-/strategy-utils-1.1.1.tgz#17bb28d706d09c2634685e165a81054eea1dd9e4"
+  integrity sha512-ZVUgs7cV8l93Fxa1fkoHsjYjPNFjQZk4qCPCQUc3XhoTsK9JGaaadzfTfiNuicB7brXuLWorgd13UAh6teymUw==
   dependencies:
     "@assemblyscript/loader" "0.19.9"
     "@babel/preset-typescript" "^7.14.5"
