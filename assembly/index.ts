@@ -33,8 +33,8 @@ export function initialize(config: string): void {
 }
 
 export function execute(_prices: string): string {
-  // _prices will be a nested array with the OHLC data in the deeper array,
-  const prices = parsePrices(_prices);
+  // _prices will have the results of the dc, which is only candles here
+  const prices = parsePrices(_prices, 0);
   // If we have no candles 
   if (prices.length == 0) {return `skip tend, no candles`}
   // Get Trailing stop price
