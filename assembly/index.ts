@@ -90,3 +90,7 @@ export function config(): string{
   }`;
 }
 
+export function version(): i32 {
+  return 1;
+}
+
