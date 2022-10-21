@@ -11,7 +11,8 @@ export const config = `{
     },
     "poolFee": {
       "type": "number",
-      "description": "expanded pool fee percent for Uniswapv3 pool"
+      "description": "expanded pool fee percent for Uniswapv3 pool",
+      "enum" : [100, 500, 3000, 10000]
     },
     "binWidth": {
         "type": "number",
