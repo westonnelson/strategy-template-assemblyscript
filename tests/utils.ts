@@ -1,25 +1,28 @@
 export const config_payload = `{"percent":5.0,"binWidth":120,"poolFee":3000}`;
 
 export const config = `{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Strategy Config",
-  "type": "object",
-  "properties": {
-    "percent": {
-        "type": "number",
-        "description": "Percent for trailing stop order"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Strategy Config",
+    "type": "object",
+    "properties": {
+      "percent": {
+          "type": "number",
+          "description": "Percent for trailing stop order",
+          "default": 5.0
+      },
+      "poolFee": {
+        "description": "Pool fee percent for desired Uniswapv3 pool",
+        "enum" : [10000, 3000, 500, 100],
+        "enumNames": ["1%", "0.3%", "0.05%", "0.01%"]
+      },
+      "binWidth": {
+          "type": "number",
+          "description": "Width for liquidity position, must be a multiple of pool tick spacing",
+          "default": 600
+      }
     },
-    "poolFee": {
-      "type": "number",
-      "description": "expanded pool fee percent for Uniswapv3 pool"
-    },
-    "binWidth": {
-        "type": "number",
-        "description": "Width for liquidity position, must be a multiple of pool tick spacing"
-    }
-  },
-  "required": ["percent", "binWidth", "poolFee"]
-}`;
+    "required": ["percent", "binWidth", "poolFee"]
+  }`;
 
 export const empty = '{"data":[]}';
 
