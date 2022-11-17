@@ -18,7 +18,7 @@ export function initialize(config: string): void {
     throw new Error("Invalid configuration");
   }
 
-  // Handle int percents
+  // Handle percents presented as integers
   if (_percent.isFloat) {
     const f_percent = <JSON.Num>_percent
     percent = f32(f_percent._num);
@@ -75,16 +75,18 @@ export function config(): string{
     "properties": {
       "percent": {
           "type": "number",
-          "description": "Percent for trailing stop order"
+          "description": "Percent for trailing stop order",
+          "default": 5.0
       },
       "poolFee": {
-        "type": "number",
-        "description": "expanded pool fee percent for Uniswapv3 pool",
-        "enum" : [100, 500, 3000, 10000]
+        "description": "Pool fee percent for desired Uniswapv3 pool",
+        "enum" : [10000, 3000, 500, 100],
+        "enumNames": ["1%", "0.3%", "0.05%", "0.01%"]
       },
       "binWidth": {
           "type": "number",
-          "description": "Width for liquidity position, must be a multiple of pool tick spacing"
+          "description": "Width for liquidity position, must be a multiple of pool tick spacing",
+          "default": 600
       }
     },
     "required": ["percent", "binWidth", "poolFee"]
