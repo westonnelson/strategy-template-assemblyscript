@@ -1,3 +1,21 @@
+## [1.1.0](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.0.1...v1.1.0) (2022-11-17)
+
+
+### Features
+
+* :zap: Enum for pool fee ([7f76e3a](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/7f76e3a608bc51c88753d7a8d20f4729987d9f65))
+
+
+### Bug Fixes
+
+* :green_heart: Append test ([8943626](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/8943626f0f037b106ab2f8864713b39f2aeac7b4))
+
+
+### Performance Improvements
+
+* :zap: Improved Config ([e2bddba](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/e2bddba258a2447f5274c94222e6121d259c283c))
+* :zap: Versions ([7a41917](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/7a41917b11b2eae199bdeee40a71f1f631312b9a))
+
 ### [1.0.1](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.0.0...v1.0.1) (2022-08-15)
 
 
