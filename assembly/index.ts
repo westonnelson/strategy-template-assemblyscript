@@ -35,8 +35,8 @@ export function initialize(config: string): void {
 export function execute(_prices: string): string {
   // _prices will have the results of the dc, which is only candles here
   const prices = parsePrices(_prices, 0);
-  // If we have no candles 
-  if (prices.length == 0) {return `skip tend, no candles`}
+  // If we have no candles, skip action
+  if (prices.length == 0) {return `continue`}
   // Get Trailing stop price
   const trailingLimit = trailingStop(percent, prices)
   // Calculate position
