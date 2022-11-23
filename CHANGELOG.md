@@ -1,3 +1,10 @@
+### [1.1.1](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.1.0...v1.1.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* :ambulance: No candles handling ([0495dd4](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/0495dd484e6abd32fa79deed83599d9bba4d1026))
+
 ## [1.1.0](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.0.1...v1.1.0) (2022-11-17)
 
 
