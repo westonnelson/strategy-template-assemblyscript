@@ -1,4 +1,4 @@
-# strategy-template-assemblyscript
+# Steer Protocol Strategy Template - Assemblyscript
 AssemblyScript based Strategy Template for the Steer Protocol.
 
 Start building on [Steer Protocol](https://steer.finance) with our AssemblyScript template. Expand your smart contract capabilities with off-chain compute! More info can be found here: [Documentation](https://docs.steer.finance/steer-apps/writing-an-app)
