@@ -28,8 +28,9 @@ export function initialize(config: string): void {
   poolFee = i32(configJson.poolFee);
 }
 
-function closestDivisibleNumber(num: number, divisor: number): number {
-  return Math.round(num / divisor) * divisor;
+function closestDivisibleNumber(num: number, divisor: number, floor: boolean): number {
+  if (floor) return Math.floor(num / divisor) * divisor;
+  return Math.ceil(num / divisor) * divisor;
 }
 
 export function execute(_prices: string): string {
@@ -43,8 +44,8 @@ export function execute(_prices: string): string {
   const lowerLimit = trailingStop(percent, prices);
   const upperLimit = prices[prices.length - 1].close;
   
-  const upperTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(upperLimit)))), getTickSpacing(poolFee));
-  const lowerTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(lowerLimit)))), getTickSpacing(poolFee));
+  const upperTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(upperLimit)))), getTickSpacing(poolFee), false);
+  const lowerTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(lowerLimit)))), getTickSpacing(poolFee), true);
   
   // Calculate position
 
@@ -60,6 +61,7 @@ export function config(): string {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Strategy Config",
     "type": "object",
+    "parameters": ["OHLC"],
     "properties": {
       "percent": {
         "type": "number",
@@ -72,7 +74,7 @@ export function config(): string {
         "enumNames": ["1%", "0.3%", "0.05%", "0.01%"]
       }
     },
-    "required": ["period", "poolFee"]
+    "required": ["percent", "poolFee"]
   }`;
 }
 

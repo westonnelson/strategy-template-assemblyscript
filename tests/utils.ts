@@ -1,35 +1,143 @@
-export const config_payload = `{"period":5,"binWidth":120,"poolFee":3000,"multiplier":1.0}`;
+export const config_payload = `{"percent":5,"poolFee":3000}`;
 
 export const config = `{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Strategy Config",
   "type": "object",
+  "parameters": ["OHLC"],
   "properties": {
-    "period": {
-        "type": "number",
-        "description": "Lookback period for channel",
-        "default": 5
-    },
-    "multiplier": {
-        "type": "number",
-        "description": "Multiplier for channel width",
-        "default": 1.0
-    },
+    "percent": {
+      "type": "number",
+      "description": "Percent for trailing stop order (must be greater than pool fee)",
+      "default": 5.0
+  },
     "poolFee": {
       "description": "Pool fee percent for desired Uniswapv3 pool",
       "enum" : [10000, 3000, 500, 100],
       "enumNames": ["1%", "0.3%", "0.05%", "0.01%"]
-    },
-    "binWidth": {
-        "type": "number",
-        "description": "Width for liquidity position, must be a multiple of pool tick spacing",
-        "default": 600
     }
   },
-  "required": ["period", "binWidth", "poolFee", "multiplier"]
+  "required": ["percent", "poolFee"]
 }`;
 
 export const empty = '{"data":[]}';
+
+export const prices2 = [
+  {
+    open: 2.50463873386213e21,
+    high: 2.5046430693437536e21,
+    close: 2.5046430693437536e21,
+    low: 2.50463873386213e21,
+  },
+  {
+    open: 2.5046441722633493e21,
+    high: 2.504653822829505e21,
+    close: 2.504653822829505e21,
+    low: 2.5046441722633493e21,
+  },
+  {
+    open: 2.5046560286781625e21,
+    high: 2.5046687506200826e21,
+    close: 2.5046687506200826e21,
+    low: 2.5046560286781625e21,
+  },
+  {
+    open: 2.504675500042307e21,
+    high: 2.504675500042307e21,
+    close: 2.504675500042307e21,
+    low: 2.504675500042307e21,
+  },
+  {
+    open: 2.5046794323890526e21,
+    high: 2.5046794323890526e21,
+    close: 2.5046794323890526e21,
+    low: 2.5046794323890526e21,
+  },
+  {
+    open: 2.5047014906624753e21,
+    high: 2.5047014906624753e21,
+    close: 2.5047014906624753e21,
+    low: 2.5047014906624753e21,
+  },
+  {
+    open: 2.5047064487510734e21,
+    high: 2.5047064487510734e21,
+    close: 2.5047064487510734e21,
+    low: 2.5047064487510734e21,
+  },
+  {
+    open: 2.50470920324877e21,
+    high: 2.5047126739199585e21,
+    close: 2.5047126739199585e21,
+    low: 2.50470920324877e21,
+  },
+  {
+    open: 2.504713775721294e21,
+    high: 2.504713775721294e21,
+    close: 2.504713775721294e21,
+    low: 2.504713775721294e21,
+  },
+  {
+    open: 2.5047159793253357e21,
+    high: 2.5047159793253357e21,
+    close: 2.5047159793253357e21,
+    low: 2.5047159793253357e21,
+  },
+  {
+    open: 2.5047181829312254e21,
+    high: 2.5047181829312254e21,
+    close: 2.5047181829312254e21,
+    low: 2.5047181829312254e21,
+  },
+  {
+    open: 2.504718733832986e21,
+    high: 2.504718733832986e21,
+    close: 2.504718733832986e21,
+    low: 2.504718733832986e21,
+  },
+  {
+    open: 2.504721488343512e21,
+    high: 2.504736417840634e21,
+    close: 2.504736417840634e21,
+    low: 2.504721488343512e21,
+  },
+  {
+    open: 2.5047366657481213e21,
+    high: 2.5047369136556406e21,
+    close: 2.5047369136556406e21,
+    low: 2.5047366657481213e21,
+  },
+  {
+    open: 2.504737161563177e21,
+    high: 2.504737161563177e21,
+    close: 2.504737161563177e21,
+    low: 2.504737161563177e21,
+  },
+  {
+    open: 2.5047373764163986e21,
+    high: 2.5047492341717213e21,
+    close: 2.5047492341717213e21,
+    low: 2.5047373764163986e21,
+  },
+  {
+    open: 2.5047501877966684e21,
+    high: 2.5047501877966684e21,
+    close: 2.5047501877966684e21,
+    low: 2.5047501877966684e21,
+  },
+  {
+    open: 2.5047519507197807e21,
+    high: 5.5047574598621116e21,
+    close: 2.5047574598621116e21,
+    low: 2.5047519507197807e21,
+  },
+  {
+    open: 2.5047927499044306e21,
+    high: 2.5047927499044306e21,
+    close: 2.5047927499044306e21,
+    low: 2.5047927499044306e21,
+  },
+];
 
 export const prices = [
   {
