@@ -58,7 +58,7 @@ describe("WASM Module", () => {
       // );
 
       // Call the config function on the strategy bundle
-      const result = myModule.execute(JSON.stringify(prices2));
+      const result = myModule['execute(paramter_1: string)'](JSON.stringify(prices2));
 
       // console.log(result)
       // Pull the result from memory and parse the result
