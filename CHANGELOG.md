@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.2.0...v1.3.0) (2023-04-13)
+
+
+### Features
+
+* :zap: f64, rename ([400500f](https://github.com/SteerProtocol/strategy-template-assemblyscript/commit/400500f8efe2145e56402461057fcd04f8758202))
+
 ## [1.2.0](https://github.com/SteerProtocol/strategy-template-assemblyscript/compare/v1.1.1...v1.2.0) (2023-03-21)
 
 
