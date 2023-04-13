@@ -4,7 +4,7 @@ export const config = `{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Strategy Config",
   "type": "object",
-  "parameters": ["OHLC"],
+  "expectedDataTypes": ["OHLC"],
   "properties": {
     "percent": {
       "type": "number",

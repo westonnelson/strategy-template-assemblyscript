@@ -2,12 +2,12 @@ import { getTickFromPrice, getTickSpacing, renderULMResult } from "@steerprotoco
 import { parseCandles, Position, console, trailingStop } from  "@steerprotocol/strategy-utils/assembly";
 import { JSON } from "json-as/assembly";
 
-let percent: f32 = 0;
+let percent: f64 = 0;
 let poolFee: i32 = 0;
 
 @serializable
 class Config {
-  poolFee: f32 = 0;
+  poolFee: f64 = 0;
   percent: i32 = 0;
 }
 
@@ -24,7 +24,7 @@ export function initialize(config: string): void {
   }
 
   // Assign values to memory
-  percent = f32(configJson.percent);
+  percent = f64(configJson.percent);
   poolFee = i32(configJson.poolFee);
 }
 
@@ -44,8 +44,8 @@ export function execute(_prices: string): string {
   const lowerLimit = trailingStop(percent, prices);
   const upperLimit = prices[prices.length - 1].close;
   
-  const upperTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(upperLimit)))), getTickSpacing(poolFee), false);
-  const lowerTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f32(lowerLimit)))), getTickSpacing(poolFee), true);
+  const upperTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f64(upperLimit)))), getTickSpacing(poolFee), false);
+  const lowerTick = closestDivisibleNumber(i32(Math.round(getTickFromPrice(f64(lowerLimit)))), getTickSpacing(poolFee), true);
   
   // Calculate position
 
@@ -61,7 +61,7 @@ export function config(): string {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Strategy Config",
     "type": "object",
-    "parameters": ["OHLC"],
+    "expectedDataTypes": ["OHLC"],
     "properties": {
       "percent": {
         "type": "number",
